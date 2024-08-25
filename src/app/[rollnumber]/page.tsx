@@ -4,7 +4,7 @@ import { StudentDataContext } from "@/Context/AllStudents";
 import Link from "next/link";
 
 type StudentDetailType = {
-  params: { rollnumber: number };
+  params: { rollnumber: string };
 };
 
 const StudentDetail = ({ params: { rollnumber } }: StudentDetailType) => {

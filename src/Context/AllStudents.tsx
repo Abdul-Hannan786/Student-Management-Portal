@@ -35,11 +35,41 @@ const students = [
   },
 ];
 
-const StudentContext = createContext({});
-const EditStudentContext = createContext({});
+type StudentContextType = {
+  stData: StudentType[];
+  deleteStudent: (index: number) => void;
+  editStudent: (index: number) => void;
+  addNewStudent: (newStudent: StudentType) => void;
+  seeDetails: (index: number) => void;
+};
+
+type EditStudentContext = {
+  name: string;
+  fatherName: string;
+  rollNumber: string;
+  editedStudent: (
+    editedName: string,
+    editedFatherName: string,
+    editedRollNumber: string
+  ) => void;
+};
+
+const StudentContext = createContext<StudentContextType>({
+  stData: [],
+  deleteStudent: () => {},
+  editStudent: () => {},
+  addNewStudent: () => {},
+  seeDetails: () => {},
+});
+const EditStudentContext = createContext<EditStudentContext>({
+  name: "",
+  fatherName: "",
+  rollNumber: "",
+  editedStudent: () => {},
+});
 
 const AllStudents = ({ children }: { children: React.ReactNode }) => {
-  const [stData, setStData] = useState(students);
+  const [stData, setStData] = useState<StudentType[]>(students);
   const [editIndex, setEditIndex] = useState(0);
   const [name, setName] = useState("");
   const [fatherName, setFatherName] = useState("");
@@ -75,10 +105,10 @@ const AllStudents = ({ children }: { children: React.ReactNode }) => {
     router.push("/");
     setStData([...stData, newStudent]);
   };
- 
+
   const seeDetails = (index: number) => {
-    router.push(`${stData[index].rollNumber}`)
-  }
+    router.push(`${stData[index].rollNumber}`);
+  };
 
   useEffect(() => {
     setName(stData[editIndex].name);
@@ -92,7 +122,13 @@ const AllStudents = ({ children }: { children: React.ReactNode }) => {
         value={{ name, fatherName, rollNumber, editedStudent }}
       >
         <StudentContext.Provider
-          value={{ stData, deleteStudent, editStudent, addNewStudent, seeDetails }}
+          value={{
+            stData,
+            deleteStudent,
+            editStudent,
+            addNewStudent,
+            seeDetails,
+          }}
         >
           {children}
         </StudentContext.Provider>
