@@ -111,9 +111,15 @@ const AllStudents = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    setName(stData[editIndex].name);
-    setFatherName(stData[editIndex].fatherName);
-    setRollNumber(stData[editIndex].rollNumber);
+    if (stData.length > 0) {
+      setName(stData[editIndex].name);
+      setFatherName(stData[editIndex].fatherName);
+      setRollNumber(stData[editIndex].rollNumber);
+    } else {
+      setName("");
+      setFatherName("");
+      setRollNumber("");
+    }
   }, [editIndex, stData]);
 
   return (
