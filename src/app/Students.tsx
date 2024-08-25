@@ -3,46 +3,23 @@
 import { StudentDataContext } from "@/Context/AllStudents";
 
 const Students = () => {
-  const { stData, deleteStudent } = StudentDataContext();
+  const { stData, deleteStudent, editStudent, seeDetails } = StudentDataContext();
   return (
     <>
-      {stData.map(({ name, fatherName, rollNumber, test1, test2 }, index) => (
+      {stData.map(({ name, rollNumber }, index) => (
         <tr key={name + index}>
           <td style={{ border: "1px solid black", padding: "10px" }}>{name}</td>
           <td style={{ border: "1px solid black", padding: "10px" }}>
-            {fatherName}
-          </td>
-          <td style={{ border: "1px solid black", padding: "10px" }}>
             {rollNumber}
           </td>
-          <td
-            style={{
-              border: "1px solid black",
-              padding: "10px",
-              color: test1 ? "lime" : "red",
-              fontWeight: "650",
-            }}
-          >
-            {test1 ? "Passed" : "Failed"}
-          </td>
-          <td
-            style={{
-              border: "1px solid black",
-              padding: "10px",
-              color: test2 ? "lime" : "red",
-              fontWeight: "650",
-            }}
-          >
-            {test2 ? "Passed" : "Failed"}
-          </td>
           <td style={{ border: "1px solid black", padding: "10px" }}>
-            <button>See Details</button>
+            <button onClick={() => seeDetails(index)}>See Details</button>
           </td>
           <td style={{ border: "1px solid black", padding: "10px" }}>
             <button onClick={() => deleteStudent(index)}>Delete</button>
           </td>
           <td style={{ border: "1px solid black", padding: "10px" }}>
-            <button>Edit</button>
+            <button onClick={() => editStudent(index)}>Edit</button>
           </td>
         </tr>
       ))}
@@ -50,4 +27,4 @@ const Students = () => {
   );
 };
 
-export default Students;
+export default Students; 
