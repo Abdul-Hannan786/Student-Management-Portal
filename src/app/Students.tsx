@@ -12,14 +12,14 @@ const Students = () => {
           <td style={{ border: "1px solid black", padding: "10px" }}>
             {rollNumber}
           </td>
-          <td style={{ border: "1px solid black", padding: "10px" }}>
-            <button onClick={() => seeDetails(index)}>See Details</button>
+          <td style={{ border: "1px solid black", padding: "10px"}}>
+            <button onClick={() => seeDetails(index)} style={{fontWeight: "550"}}>See Details</button>
           </td>
-          <td style={{ border: "1px solid black", padding: "10px" }}>
-            <button onClick={() => deleteStudent(index)}>Delete</button>
+          <td style={{ border: "1px solid black", padding: "10px"}}>
+            <button onClick={() => deleteStudent(index)} style={{fontWeight: "550"}}>Delete</button>
           </td>
-          <td style={{ border: "1px solid black", padding: "10px" }}>
-            <button onClick={() => editStudent(index)}>Edit</button>
+          <td style={{ border: "1px solid black", padding: "10px"}}>
+            <button onClick={() => editStudent(index)} style={{fontWeight: "550"}}>Edit</button>
           </td>
         </tr>
       ))}

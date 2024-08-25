@@ -9,13 +9,14 @@ export default function Home() {
 
   return (
     <>
-      <h1>Student Portal Management</h1>
+      <h1 style={{fontFamily: "sans-serif"}}>Student Portal Management</h1>
       <button
         style={{
           marginBottom: "10px",
           padding: "10px",
           borderRadius: "5px",
           border: "1px solid grey",
+          fontWeight: "600"
         }}
         onClick={() => router.push("./createstudent")}
       >
