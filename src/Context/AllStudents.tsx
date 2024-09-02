@@ -2,7 +2,13 @@
 
 import { StudentType } from "@/Types/StudentType";
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const students = [
   {
@@ -47,10 +53,14 @@ type EditStudentContext = {
   name: string;
   fatherName: string;
   rollNumber: string;
+  test1: string;
+  test2: string;
   editedStudent: (
     editedName: string,
     editedFatherName: string,
-    editedRollNumber: string
+    editedRollNumber: string,
+    editedTest1: string,
+    editedTest2: string
   ) => void;
 };
 
@@ -65,22 +75,29 @@ const EditStudentContext = createContext<EditStudentContext>({
   name: "",
   fatherName: "",
   rollNumber: "",
+  test1: "",
+  test2: "",
   editedStudent: () => {},
 });
 
-const AllStudents = ({ children }: { children: React.ReactNode }) => {
+const AllStudents = ({ children }: { children: ReactNode }) => {
   const [stData, setStData] = useState<StudentType[]>(students);
-  const [editIndex, setEditIndex] = useState(0);
+  const [editIndex, setEditIndex] = useState<null | number>(null);
   const [name, setName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [rollNumber, setRollNumber] = useState("");
+  const [test1, setTest1] = useState("");
+  const [test2, setTest2] = useState("");
 
   const router = useRouter();
 
   const deleteStudent = (index: number) => {
-    let cloneStudents = [...stData];
+    const cloneStudents = [...stData];
     cloneStudents.splice(index, 1);
     setStData([...cloneStudents]);
+    if (editIndex !== null && editIndex >= cloneStudents.length) {
+      setEditIndex(null);
+    }
   };
 
   const editStudent = (index: number) => {
@@ -91,19 +108,27 @@ const AllStudents = ({ children }: { children: React.ReactNode }) => {
   const editedStudent = (
     editedName: string,
     editedFatherName: string,
-    editedRollNumber: string
+    editedRollNumber: string,
+    editedTest1: string,
+    editedTest2: string
   ) => {
-    let cloneStudents = [...stData];
-    cloneStudents[editIndex].name = editedName;
-    cloneStudents[editIndex].fatherName = editedFatherName;
-    cloneStudents[editIndex].rollNumber = editedRollNumber;
-    setStData([...cloneStudents]);
-    router.push("./");
+    if (editIndex !== null && editIndex < stData.length) {
+      const cloneStudents = [...stData];
+      cloneStudents[editIndex] = {
+        name: editedName,
+        fatherName: editedFatherName,
+        rollNumber: editedRollNumber,
+        test1: editedTest1,
+        test2: editedTest2,
+      };
+      setStData(cloneStudents);
+      router.push("./");
+    }
   };
 
   const addNewStudent = (newStudent: StudentType) => {
-    router.push("/");
     setStData([...stData, newStudent]);
+    router.push("/");
   };
 
   const seeDetails = (index: number) => {
@@ -111,21 +136,25 @@ const AllStudents = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (stData.length > 0) {
+    if (editIndex !== null && editIndex < stData.length) {
       setName(stData[editIndex].name);
       setFatherName(stData[editIndex].fatherName);
       setRollNumber(stData[editIndex].rollNumber);
+      setTest1(stData[editIndex].test1);
+      setTest2(stData[editIndex].test2);
     } else {
       setName("");
       setFatherName("");
       setRollNumber("");
+      setTest1("");
+      setTest2("");
     }
   }, [editIndex, stData]);
 
   return (
     <>
       <EditStudentContext.Provider
-        value={{ name, fatherName, rollNumber, editedStudent }}
+        value={{ name, fatherName, rollNumber, test1, test2, editedStudent }}
       >
         <StudentContext.Provider
           value={{
